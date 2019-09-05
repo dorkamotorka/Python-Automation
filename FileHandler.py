@@ -6,7 +6,9 @@ import os
 
 
 input_folder = "/Users/Teo/Desktop/PROGRAMIRANJE"
-output_folder = "/Users/Teo/Desktop/PYTHON"
+output_python_folder = "/Users/Teo/Desktop/PYTHON"
+output_C_folder = "/Users/Teo/Desktop/C"
+output_java_folder = "/Users/Teo/Desktop/JAVA"
 
 class MyHandler(FileSystemEventHandler) :
     '''
@@ -25,13 +27,25 @@ class MyHandler(FileSystemEventHandler) :
     def on_moved(self, event) :
         for filename in os.listdir(input_folder) :
             source = input_folder + "/" + filename
-            destination = output_folder + "/" + filename
+            root, ext = os.path.splitext(filename)
+            ext_dict = {
+                ".py" : output_python_folder,
+                ".c" : output_C_folder,
+                ".java" : output_java_folder
+            }
+            destination = ext_dict[ext] + "/" + filename
             os.rename(source, destination)
 
     def on_created(self, event) :
         for filename in os.listdir(input_folder) :
             source = input_folder + "/" + filename
-            destination = output_folder + "/" + filename
+            root, ext = os.path.splitext(filename)
+            ext_dict = {
+                ".py" : output_python_folder,
+                ".c" : output_C_folder,
+                ".java" : output_java_folder
+            }
+            destination = ext_dict[ext] + "/" + filename
             os.rename(source, destination)
     
 
@@ -42,7 +56,7 @@ Obs.start()
 
 try :
     while True :
-        time.sleep(10) #wait to the file is transferred
+        time.sleep(10) #file transfer lag
 except KeyboardInterrupt :
     Obs.stop()
 Obs.join()
